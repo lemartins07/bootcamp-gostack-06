@@ -48,24 +48,29 @@ export default class Main extends Component {
   hanldeAddUser = async () => {
     const { users, newUser } = this.state;
 
-    this.setState({ loading: true });
+    try {
+      this.setState({ loading: true });
 
-    const response = await api.get(`/users/${newUser}`);
+      const response = await api.get(`/users/${newUser}`);
 
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
+      const data = {
+        name: response.data.name,
+        login: response.data.login,
+        bio: response.data.bio,
+        avatar: response.data.avatar_url,
+      };
 
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
+      this.setState({
+        users: [...users, data],
+        newUser: '',
+        loading: false,
+      });
 
-    Keyboard.dismiss();
+      Keyboard.dismiss();
+    } catch (error) {
+      console.tron.log(error);
+      this.setState({ loading: false });
+    }
   };
 
   hanldeNavigate = (user) => {
